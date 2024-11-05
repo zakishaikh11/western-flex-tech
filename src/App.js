@@ -1,24 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Use Routes instead of Switch
+import Navbar from './Components/Navbar'; // Import Navbar component
+import Home from './Components/Home'; // Import Home component
+import ServiceDesc from './Components/ServiceDesc'; // Import ServiceDesc component
+import { services } from './Components/ServiceData'; // Import services data array
+import './index.css'; // Import CSS for global styles
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navbar />
+      <Routes>
+        {/* Route for Home page */}
+        <Route path="/" element={<Home />} /> 
+
+        {/* Dynamically create routes for each service */}
+        {services.map(service => (
+          <Route 
+            key={service.id} // Each route needs a unique key
+            path={`/service/${service.id}`} // URL path for each service
+            element={<ServiceDesc service={service} />} // Pass the service object to ServiceDesc component as a prop
+          />
+        ))}
+      </Routes>
+    </Router>
   );
 }
 
